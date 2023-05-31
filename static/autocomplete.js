@@ -20,6 +20,10 @@ new autoComplete({
     resultItem: {                          // Rendered result item            | (Optional)
         content: (data, source) => {
             source.innerHTML = data.match;
+            $.ajax({
+                type: 'GET',
+                url:'https://autocompletion-k57nonapdq-df.a.run.app/'
+            });
         },
         element: "li"
     },

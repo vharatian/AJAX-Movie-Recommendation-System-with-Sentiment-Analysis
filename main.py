@@ -64,7 +64,7 @@ def home():
 
 @app.route("/test")
 def test():
-    return "Hello CI"
+    return "Hello world"
 
 @app.route("/similarity",methods=["POST"])
 def similarity():
