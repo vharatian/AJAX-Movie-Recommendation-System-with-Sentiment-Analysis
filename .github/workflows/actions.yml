@@ -20,5 +20,5 @@ jobs:
         with:
           project_id: 'cs-683-finalproject'
 
-      - name: 'Use gcloud CLI'
+      - name: 'Deploy'
         run: 'gcloud app deploy'
