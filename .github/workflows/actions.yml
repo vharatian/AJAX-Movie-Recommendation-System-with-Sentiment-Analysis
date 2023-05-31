@@ -1,0 +1,24 @@
+name: Deploy App Engine
+on: [push]
+jobs:
+  deploy_website:
+    # Add "id-token" with the intended permissions.
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v1'
+        with:
+          project_id: 'cs-683-finalproject'
+
+      - name: 'Use gcloud CLI'
+        run: 'gcloud app deploy'

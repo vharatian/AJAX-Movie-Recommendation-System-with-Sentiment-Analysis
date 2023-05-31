@@ -62,6 +62,10 @@ def home():
     suggestions = get_suggestions()
     return render_template('home.html',suggestions=suggestions)
 
+@app.route("/test")
+def test():
+    return "Hello world"
+
 @app.route("/similarity",methods=["POST"])
 def similarity():
     movie = request.form['name']
