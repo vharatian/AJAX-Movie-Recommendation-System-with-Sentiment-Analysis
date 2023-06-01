@@ -1,23 +1,34 @@
 const {Client} = require("@elastic/elasticsearch");
-
-// Initialize Elastic, requires installing Elastic dependencies:
-// https://github.com/elastic/elasticsearch-js
-//
-// ID, username, and password are stored in functions config variables
-const ELASTIC_ID = functions.config().elastic.id;
-const ELASTIC_USERNAME = functions.config().elastic.username;
-const ELASTIC_PASSWORD = functions.config().elastic.password;
+const functions = require('@google-cloud/functions-framework');
 
 const client = new Client({
     cloud: {
-        id: ELASTIC_ID,
-        username: ELASTIC_USERNAME,
-        password: ELASTIC_PASSWORD,
+        id: process.env.ELASTIC_ID,
+        username: process.env.ELASTIC_USERNAME,
+        password: process.env.ELASTIC_PASSWORD,
     }
 });
 
+function checkCORS(req, res)
+{
+    res.set('Access-Control-Allow-Origin', '*');
+
+    if (req.method === 'OPTIONS') {
+        // Send response to OPTIONS requests
+        res.set('Access-Control-Allow-Methods', 'GET');
+        res.set('Access-Control-Allow-Headers', 'Content-Type');
+        res.set('Access-Control-Max-Age', '3600');
+        res.status(204).send('');
+        return true;
+    } else {
+        return false;
+    }
+}
 
 functions.http('auto-completion', async (req, res) => {
+
+    if (checkCORS(req, res)) return;
+
     try {
 
         const query = req.query.query;
@@ -26,7 +37,7 @@ functions.http('auto-completion', async (req, res) => {
         // For more search examples see:
         // https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/search_examples.html
         const searchRes = await client.search({
-            index: "movies",
+            index: "search-movies",
             body: {
                 size: 5,
                 query: {

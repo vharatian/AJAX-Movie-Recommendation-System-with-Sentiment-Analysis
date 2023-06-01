@@ -1,6 +1,23 @@
 new autoComplete({
-    data: {                              // Data src [Array, Function, Async] | (REQUIRED)
-      src: films,
+    data: {                              // Data src [Array, Function, Async] | (REQUIRED
+        cache: false,
+        src: async () => {
+            const promis = new Promise((resolve, _) => {
+                const query = $('.movie').val()
+                $.ajax({
+                    type: 'GET',
+                    url: `https://autocompletion-k57nonapdq-df.a.run.app?query=${query}`,
+                    success: (data) => {
+                        resolve(data.titles);
+                    },
+                    error: () => {
+                        resolve([]);
+                    }
+                });
+            });
+
+            return await promis;
+        },
     },
     selector: "#autoComplete",           // Input field selector              | (Optional)
     threshold: 2,                        // Min. Chars length to start Engine | (Optional)
@@ -20,10 +37,6 @@ new autoComplete({
     resultItem: {                          // Rendered result item            | (Optional)
         content: (data, source) => {
             source.innerHTML = data.match;
-            $.ajax({
-                type: 'GET',
-                url:'https://autocompletion-k57nonapdq-df.a.run.app/'
-            });
         },
         element: "li"
     },
