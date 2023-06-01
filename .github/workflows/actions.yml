@@ -44,4 +44,4 @@ jobs:
           project_id: 'cs-683-finalproject'
 
       - name: 'Deploy'
-        run: 'gcloud functions deploy autoCompletion  --source=./SearchFunction/ --allow-unauthenticated --trigger-http --runtime=nodejs18 --gen2 --region=asia-east2 --set-secrets "ELASTIC_ID=ELASTIC_ID:1" --set-secrets "ELASTIC_USERNAME=ELASTIC_USERNAME:1" --set-secrets "ELASTIC_PASSWORD=ELASTIC_PASSWORD:1"'
+        run: 'gcloud functions deploy autoCompletion --entry-point=autoCompletion  --source=./API/ --allow-unauthenticated --trigger-http --runtime=nodejs18 --gen2 --region=asia-east2 --set-secrets "ELASTIC_ID=ELASTIC_ID:1" --set-secrets "ELASTIC_USERNAME=ELASTIC_USERNAME:1" --set-secrets "ELASTIC_PASSWORD=ELASTIC_PASSWORD:1" --set-secrets "API_KEY=API_KEY:1"'

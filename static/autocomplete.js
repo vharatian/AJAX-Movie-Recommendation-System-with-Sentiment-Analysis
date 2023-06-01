@@ -6,7 +6,7 @@ new autoComplete({
                 const query = $('.movie').val()
                 $.ajax({
                     type: 'GET',
-                    url: `https://autocompletion-k57nonapdq-df.a.run.app?query=${query}`,
+                    url: `https://autocompletion-k57nonapdq-df.a.run.app?task=completion&query=${query}`,
                     success: (data) => {
                         resolve(data.titles);
                     },

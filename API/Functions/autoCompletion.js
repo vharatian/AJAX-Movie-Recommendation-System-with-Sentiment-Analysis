@@ -1,5 +1,4 @@
-const {Client} = require("@elastic/elasticsearch");
-const functions = require('@google-cloud/functions-framework');
+import {Client} from "@elastic/elasticsearch";
 
 const client = new Client({
     cloud: {
@@ -9,26 +8,7 @@ const client = new Client({
     }
 });
 
-function checkCORS(req, res)
-{
-    res.set('Access-Control-Allow-Origin', '*');
-
-    if (req.method === 'OPTIONS') {
-        // Send response to OPTIONS requests
-        res.set('Access-Control-Allow-Methods', 'GET');
-        res.set('Access-Control-Allow-Headers', 'Content-Type');
-        res.set('Access-Control-Max-Age', '3600');
-        res.status(204).send('');
-        return true;
-    } else {
-        return false;
-    }
-}
-
-functions.http('auto-completion', async (req, res) => {
-
-    if (checkCORS(req, res)) return;
-
+export const autoCompletion = async (req, res) => {
     try {
 
         const query = req.query.query;
@@ -63,4 +43,4 @@ functions.http('auto-completion', async (req, res) => {
         console.error(err);
         res.status(500).send(`Error querying Elastic: ${err}`);
     }
-});
+}
